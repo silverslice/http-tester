@@ -1,6 +1,6 @@
 <?php
 
-namespace SilverSlice\HttpTester;
+namespace Silverslice\HttpTester;
 
 /**
  * Class WebTestRequest
@@ -132,7 +132,7 @@ class Request
         $res = curl_exec($this->curl);
         $info = curl_getinfo($this->curl);
 
-        return new WebTestResponse($res, $info);
+        return new Response($res, $info);
     }
 
     protected function setOpt($opt, $value)

@@ -1,6 +1,6 @@
 <?php
 
-namespace SilverSlice\HttpTester;
+namespace Silverslice\HttpTester;
 
 /**
  * Class Response
