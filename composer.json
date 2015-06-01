@@ -1,0 +1,20 @@
+{
+    "name": "silverslice/http-testr",
+    "description": "Lightweight http testing tool",
+    "keywords": ["tests", "http", "curl"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Igor Mikheev",
+            "email": "silver_slice@mail.ru"
+        }
+    ],
+    "require": {
+        "php": ">=5.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "Silverslice\\HttpTester\\": "src/"
+        }
+    }
+}
