@@ -1,5 +1,5 @@
 {
-    "name": "silverslice/http-testr",
+    "name": "silverslice/http-tester",
     "description": "Lightweight http testing tool",
     "keywords": ["tests", "http", "curl"],
     "license": "MIT",
