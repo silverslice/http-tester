@@ -5,7 +5,7 @@ namespace Silverslice\HttpTester;
 /**
  * Checks html
  */
-class HtmlChecker
+class HtmlTester
 {
     protected $html;
     protected $charset;
