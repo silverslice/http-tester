@@ -65,14 +65,6 @@ class Request
     }
 
     /**
-     * Follows any "Location: " header
-     */
-    public function followRedirects()
-    {
-        $this->setOpt(CURLOPT_FOLLOWLOCATION, true);
-    }
-
-    /**
      * Sets user agent
      *
      * @param  string $userAgent
