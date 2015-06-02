@@ -15,7 +15,7 @@ class Response
 
     protected $info;
 
-    /** @var HtmlChecker */
+    /** @var HtmlTester */
     protected $checker;
 
     /**
@@ -127,14 +127,14 @@ class Response
     }
 
     /**
-     * Returns html checker instance
+     * Returns html tester instance
      *
-     * @return HtmlChecker
+     * @return HtmlTester
      */
-    public function getHtmlChecker()
+    public function getHtmlTester()
     {
         if (!isset($this->checker)) {
-            $this->checker = new HtmlChecker($this->getBody());
+            $this->checker = new HtmlTester($this->getBody());
         }
 
         return $this->checker;
