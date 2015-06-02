@@ -3,8 +3,6 @@
 namespace Silverslice\HttpTester;
 
 /**
- * Class Response
- *
  * Represents HTTP response
  */
 class Response
@@ -17,6 +15,13 @@ class Response
 
     protected $info;
 
+    /** @var HtmlChecker */
+    protected $checker;
+
+    /**
+     * @param string $response  Raw response
+     * @param array  $info      Curl info
+     */
     public function __construct($response, $info)
     {
         $this->response = $response;
@@ -25,6 +30,36 @@ class Response
         $res = $this->parse($response);
         $this->headers = $res['headers'];
         $this->body = $res['body'];
+    }
+
+    /**
+     * Returns the body of the response
+     *
+     * @return string
+     */
+    public function getBody()
+    {
+        return $this->body;
+    }
+
+    /**
+     * Returns raw response
+     *
+     * @return string
+     */
+    public function getRaw()
+    {
+        return $this->response;
+    }
+
+    /**
+     * Returns curl info
+     *
+     * @return array
+     */
+    public function getInfo()
+    {
+        return $this->info;
     }
 
     /**
@@ -70,16 +105,6 @@ class Response
     }
 
     /**
-     * Returns the body of the response
-     *
-     * @return mixed
-     */
-    public function getBody()
-    {
-        return $this->body;
-    }
-
-    /**
      * Does the response contain redirect to url?
      *
      * @param  string $url
@@ -101,7 +126,26 @@ class Response
         return $this->hasStatus(301) && $this->hasRedirectTo($url);
     }
 
+    /**
+     * Returns html checker instance
+     *
+     * @return HtmlChecker
+     */
+    public function getHtmlChecker()
+    {
+        if (!isset($this->checker)) {
+            $this->checker = new HtmlChecker($this->getBody());
+        }
 
+        return $this->checker;
+    }
+
+    /**
+     * Parses HTTP-response
+     *
+     * @param string $response
+     * @return array
+     */
     protected function parse($response)
     {
         list($headers, $body) = explode("\r\n\r\n", $response, 2);
@@ -110,12 +154,18 @@ class Response
         return compact('headers', 'body');
     }
 
-    protected function parseHeaders($raw_headers)
+    /**
+     * Parses headers
+     *
+     * @param $rawHeaders
+     * @return array
+     */
+    protected function parseHeaders($rawHeaders)
     {
         $headers = array();
         $key = '';
 
-        foreach (explode("\n", $raw_headers) as $h) {
+        foreach (explode("\n", $rawHeaders) as $h) {
             $h = explode(':', $h, 2);
 
             if (isset($h[1])) {
@@ -149,6 +199,8 @@ class Response
     }
 
     /**
+     * Parses cookie header
+     *
      * @link  http://tools.ietf.org/html/rfc6265#section-5.2
      *
      * @param $cookie
@@ -156,7 +208,7 @@ class Response
      */
     protected function parseCookie($cookie)
     {
-        // CUSTOMER=WILE_E_COYOTE; path=/; expires=Wednesday, 09-Nov-99 23:12:40 GMT
+        // CUSTOMER=WILE_E_COYOTE; path=/; expires=Wednesday, 09-Nov-99 23:12:40 GMT; httponly
         $res = array();
         foreach ($cookie as $c) {
             $params = explode(';', $c);
@@ -167,10 +219,9 @@ class Response
                     $name = $val[0];
                     $res[$name] = array('value' => urldecode($val[1]), 'name' => $name);
                 } else {
-                    $res[$name][$val[0]] = $val[1];
+                    $res[$name][$val[0]] = isset($val[1]) ? $val[1] : '';
                 }
             }
-
         }
 
         return $res;
