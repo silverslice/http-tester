@@ -3,9 +3,7 @@
 namespace Silverslice\HttpTester;
 
 /**
- * Class WebTestRequest
- *
- * Curl wrapper sending HTTP-request
+ * Curl wrapper sending HTTP request
  */
 class Request
 {
@@ -67,6 +65,14 @@ class Request
     }
 
     /**
+     * Follows any "Location: " header
+     */
+    public function followRedirects()
+    {
+        $this->setOpt(CURLOPT_FOLLOWLOCATION, true);
+    }
+
+    /**
      * Sets user agent
      *
      * @param  string $userAgent
@@ -80,7 +86,7 @@ class Request
     }
 
     /**
-     * Sets Referrer
+     * Sets referrer
      *
      * @param  string $referrer
      * @return Request
@@ -126,10 +132,15 @@ class Request
      * Sends request
      *
      * @return Response
+     * @throws \Exception
      */
     public function send()
     {
         $res = curl_exec($this->curl);
+        if ($res === false) {
+            throw new \Exception('Curl error: ' . curl_error($this->curl));
+        }
+
         $info = curl_getinfo($this->curl);
 
         return new Response($res, $info);
