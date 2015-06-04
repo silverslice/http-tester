@@ -27,10 +27,13 @@ class Request
      * Sets base part of url for every type of request
      *
      * @param $url
+     * @return Request
      */
     public function setBaseUrl($url)
     {
         $this->baseUrl = $url;
+
+        return $this;
     }
 
     /**
