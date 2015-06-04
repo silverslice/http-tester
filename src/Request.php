@@ -11,6 +11,8 @@ class Request
 
     protected $cookies;
 
+    protected $baseUrl = '';
+
     public function __construct()
     {
         $this->curl = curl_init();
@@ -22,6 +24,16 @@ class Request
     }
 
     /**
+     * Sets base part of url for every type of request
+     *
+     * @param $url
+     */
+    public function setBaseUrl($url)
+    {
+        $this->baseUrl = $url;
+    }
+
+    /**
      * Sets GET request
      *
      * @param  string  $url
@@ -29,7 +41,7 @@ class Request
      */
     public function get($url)
     {
-        $this->setOpt(CURLOPT_URL, $url);
+        $this->setOpt(CURLOPT_URL, $this->buildUrl($url));
 
         return $this;
     }
@@ -43,7 +55,7 @@ class Request
      */
     public function post($url, $data = [])
     {
-        $this->setOpt(CURLOPT_URL, $url);
+        $this->setOpt(CURLOPT_URL, $this->buildUrl($url));
         $this->setOpt(CURLOPT_POST, true);
         $this->setOpt(CURLOPT_POSTFIELDS, http_build_query($data));
 
@@ -58,7 +70,7 @@ class Request
      */
     public function head($url)
     {
-        $this->setOpt(CURLOPT_URL, $url);
+        $this->setOpt(CURLOPT_URL, $this->buildUrl($url));
         $this->setOpt(CURLOPT_NOBODY, true);
 
         return $this;
@@ -138,8 +150,30 @@ class Request
         return new Response($res, $info);
     }
 
+    /**
+     * Sets curl option
+     *
+     * @param string $opt
+     * @param mixed  $value
+     */
     protected function setOpt($opt, $value)
     {
         curl_setopt($this->curl, $opt, $value);
+    }
+
+    /**
+     * Returns url with base url if url scheme is not specified
+     *
+     * @param  $url
+     * @return string
+     */
+    protected function buildUrl($url)
+    {
+        $scheme = parse_url($url, PHP_URL_SCHEME);
+        if (empty($scheme)) {
+            $url = rtrim($this->baseUrl, '/') . '/' . ltrim($url, '/');
+        }
+
+        return $url;
     }
 }
