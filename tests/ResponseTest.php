@@ -21,6 +21,13 @@ class ResponseTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($response->hasStatus(200));
     }
 
+    public function testGetStatus()
+    {
+        $response = $this->getResponse();
+
+        $this->assertEquals(200, $response->getStatus());
+    }
+
     public function testHasCookie()
     {
         $response = $this->getResponse();

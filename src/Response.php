@@ -33,6 +33,16 @@ class Response
     }
 
     /**
+     * Returns the status code of the response
+     *
+     * @return string
+     */
+    public function getStatus()
+    {
+        return $this->info['http_code'];
+    }
+
+    /**
      * Returns the body of the response
      *
      * @return string
