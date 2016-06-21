@@ -29,4 +29,17 @@ class EasyTest extends \PHPUnit_Framework_TestCase
         // the response hasn't this cookie
         $this->assertFalse($response->hasCookie('laravel_session'));
     }
+
+    public function testSetAjaxHeader() 
+    {
+        $request = new Request();
+
+        $request
+            ->get('https://getcomposer.org/')
+            ->setAjaxHeader()
+            ->send();
+        
+        $header = $request->getSentHeader();
+        $this->assertContains('X-Requested-With: XMLHttpRequest', $header);
+    }
 }

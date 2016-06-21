@@ -9,9 +9,16 @@ class Request
 {
     protected $curl;
 
+    /** @var array */
     protected $cookies;
 
+    /** @var array */
+    protected $headers;
+
     protected $baseUrl = '';
+
+    /** @var array curl_info result */
+    protected $info;
 
     public function __construct()
     {
@@ -136,6 +143,31 @@ class Request
     }
 
     /**
+     * Sets http header
+     *
+     * @param  string $value
+     * @return Request
+     */
+    public function setHeader($value)
+    {
+        $this->headers[] = $value;
+
+        return $this;
+    }
+
+    /**
+     * Sets X-Requested-With header
+     *
+     * @return Request
+     */
+    public function setAjaxHeader()
+    {
+        $this->setHeader('X-Requested-With: XMLHttpRequest');
+
+        return $this;
+    }
+
+    /**
      * Sends request
      *
      * @return Response
@@ -143,14 +175,31 @@ class Request
      */
     public function send()
     {
+        if ($this->headers) {
+            $this->setOpt(CURLOPT_HTTPHEADER, $this->headers);
+        }
+
+        $this->setOpt(CURLINFO_HEADER_OUT, true);
+
         $res = curl_exec($this->curl);
         if ($res === false) {
             throw new \Exception('Curl error: ' . curl_error($this->curl));
         }
 
         $info = curl_getinfo($this->curl);
+        $this->info = $info;
 
         return new Response($res, $info);
+    }
+
+    /**
+     * Returns sent request header
+     *
+     * @return mixed|null
+     */
+    public function getSentHeader()
+    {
+        return isset($this->info['request_header']) ? $this->info['request_header'] : null;
     }
 
     /**
