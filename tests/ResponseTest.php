@@ -102,6 +102,20 @@ class ResponseTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($response->getHtmlTester()->hasHtml('<h2>Expressive, Beautiful syntax.</h2>'));
     }
 
+    public function testGetBody()
+    {
+        $response = $this->getResponse('json');
+        $body = '{"error":{"error_code":8,"error_msg":"Invalid request: method is unavailable without access token","request_params":[{"key":"oauth","value":"1"},{"key":"method","value":"wall.get"}]}}';
+        $this->assertEquals($body, $response->getBody());
+    }
+
+    public function testGetJson()
+    {
+        $response = $this->getResponse('json');
+        $json = $response->getBodyJson();
+        $this->assertEquals(8, $json['error']['error_code']);
+    }
+
     protected function getResponse($type = 'base')
     {
         $rawResponse = file_get_contents(__DIR__ . '/data/'. $type .'/response');

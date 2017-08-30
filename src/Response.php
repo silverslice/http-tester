@@ -53,6 +53,16 @@ class Response
     }
 
     /**
+     * Returns the body of the response as json array
+     *
+     * @return string
+     */
+    public function getBodyJson()
+    {
+        return json_decode($this->body, true);
+    }
+
+    /**
      * Returns raw response
      *
      * @return string

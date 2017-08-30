@@ -1,0 +1,12 @@
+HTTP/1.1 200 OK
+Server: nginx
+Date: Wed, 30 Aug 2017 01:42:40 GMT
+Content-Type: application/json; charset=utf-8
+Content-Length: 183
+Connection: keep-alive
+X-Powered-By: PHP/3.13510
+Set-Cookie: remixlang=0; expires=Wed, 29 Aug 2018 12:48:51 GMT; path=/; domain=.vk.com
+Pragma: no-cache
+Cache-control: no-store
+
+{"error":{"error_code":8,"error_msg":"Invalid request: method is unavailable without access token","request_params":[{"key":"oauth","value":"1"},{"key":"method","value":"wall.get"}]}}
