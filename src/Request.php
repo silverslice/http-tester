@@ -171,10 +171,13 @@ class Request
      * Sets SSL_VERIFYPEER option
      *
      * @param bool $value
+     * @return Request
      */
     public function setSSLVerifyPeer($value)
     {
         $this->setOpt(CURLOPT_SSL_VERIFYPEER, $value);
+
+        return $this;
     }
 
     /**
