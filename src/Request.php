@@ -168,6 +168,16 @@ class Request
     }
 
     /**
+     * Sets SSL_VERIFYPEER option
+     *
+     * @param bool $value
+     */
+    public function setSSLVerifyPeer($value)
+    {
+        $this->setOpt(CURLOPT_SSL_VERIFYPEER, $value);
+    }
+
+    /**
      * Sends request
      *
      * @return Response
