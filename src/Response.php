@@ -55,7 +55,7 @@ class Response
     /**
      * Returns the body of the response as json array
      *
-     * @return string
+     * @return array
      */
     public function getBodyJson()
     {
