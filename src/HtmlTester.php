@@ -87,6 +87,23 @@ class HtmlTester
     }
 
     /**
+     * Finds node value by xpath query
+     *
+     * @param string $query
+     * @return bool|string
+     */
+    public function findXpathValue($query)
+    {
+        $value = false;
+        $nodes = $this->xpath($query);
+        if ($nodes !== false && $nodes->length) {
+            $value = $nodes->item(0)->nodeValue;
+        }
+
+        return $value;
+    }
+
+    /**
      * Performs xpath query
      *
      * @param string $query
@@ -98,24 +115,6 @@ class HtmlTester
 
         return $xpath->query($query);
     }
-
-    /**
-     * Finds node value by xpath query
-     *
-     * @param string $query
-     * @return bool|string
-     */
-    protected function findXpathValue($query)
-    {
-        $value = false;
-        $nodes = $this->xpath($query);
-        if ($nodes !== false && $nodes->length) {
-            $value = $nodes->item(0)->nodeValue;
-        }
-
-        return $value;
-    }
-
 
     protected function getDOMDocument()
     {

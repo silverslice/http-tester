@@ -21,10 +21,10 @@ class EasyTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($response->isSuccess());
 
         // the response body has title "Composer"
-        $this->assertTrue($response->getHtmlTester()->hasTitle('Composer'));
+        $this->assertTrue($response->hasTitle('Composer'));
 
         // the response body has this part
-        $this->assertTrue($response->getHtmlTester()->hasHtml('<a href="http://packagist.org/">Browse Packages</a>'));
+        $this->assertTrue($response->hasHtml('Dependency Manager for PHP'));
 
         // the response hasn't this cookie
         $this->assertFalse($response->hasCookie('laravel_session'));

@@ -18,14 +18,14 @@ class ResponseTest extends \PHPUnit_Framework_TestCase
     {
         $response = $this->getResponse();
 
-        $this->assertTrue($response->hasStatus(200));
+        $this->assertTrue($response->hasStatusCode(200));
     }
 
     public function testGetStatus()
     {
         $response = $this->getResponse();
 
-        $this->assertEquals(200, $response->getStatus());
+        $this->assertEquals(200, $response->getStatusCode());
     }
 
     public function testHasCookie()
@@ -71,35 +71,35 @@ class ResponseTest extends \PHPUnit_Framework_TestCase
     {
         $response = $this->getResponse();
 
-        $this->assertTrue($response->getHtmlTester()->hasTitle('Laravel - The PHP Framework For Web Artisans'));
+        $this->assertTrue($response->hasTitle('Laravel - The PHP Framework For Web Artisans'));
     }
 
     public function testHasMetaDescription()
     {
         $response = $this->getResponse();
 
-        $this->assertTrue($response->getHtmlTester()->hasMetaDescription('Laravel - The PHP framework for web artisans.'));
+        $this->assertTrue($response->hasMetaDescription('Laravel - The PHP framework for web artisans.'));
     }
 
     public function testHasMetaKeywords()
     {
         $response = $this->getResponse();
 
-        $this->assertTrue($response->getHtmlTester()->hasMetaKeywords('laravel, php, framework, web, artisans, taylor otwell'));
+        $this->assertTrue($response->hasMetaKeywords('laravel, php, framework, web, artisans, taylor otwell'));
     }
 
     public function testHasH1()
     {
         $response = $this->getResponse();
 
-        $this->assertTrue($response->getHtmlTester()->hasH1('Love beautiful code? We do too.'));
+        $this->assertTrue($response->hasH1('Love beautiful code? We do too.'));
     }
 
     public function testHasHtml()
     {
         $response = $this->getResponse();
 
-        $this->assertTrue($response->getHtmlTester()->hasHtml('<h2>Expressive, Beautiful syntax.</h2>'));
+        $this->assertTrue($response->hasHtml('<h2>Expressive, Beautiful syntax.</h2>'));
     }
 
     public function testGetBody()

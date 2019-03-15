@@ -4,6 +4,12 @@ namespace Silverslice\HttpTester;
 
 /**
  * Represents HTTP response
+ *
+ * @method bool hasTitle($text)
+ * @method bool hasMetaDescription($text)
+ * @method bool hasMetaKeywords($text)
+ * @method bool hasH1($html)
+ * @method bool hasHtml($html)
  */
 class Response
 {
@@ -36,8 +42,19 @@ class Response
      * Returns the status code of the response
      *
      * @return string
+     * @deprecated
      */
     public function getStatus()
+    {
+        return $this->info['http_code'];
+    }
+
+    /**
+     * Returns the status code of the response
+     *
+     * @return string
+     */
+    public function getStatusCode()
     {
         return $this->info['http_code'];
     }
@@ -107,8 +124,20 @@ class Response
      *
      * @param  int $status
      * @return bool
+     * @deprecated
      */
     public function hasStatus($status)
+    {
+        return $this->info['http_code'] == $status;
+    }
+
+    /**
+     * Does the response have status code?
+     *
+     * @param  int $status
+     * @return bool
+     */
+    public function hasStatusCode($status)
     {
         return $this->info['http_code'] == $status;
     }
@@ -158,6 +187,18 @@ class Response
         }
 
         return $this->checker;
+    }
+
+    /**
+     * Call method in HtmlTester
+     *
+     * @param $name
+     * @param $arguments
+     * @return mixed
+     */
+    public function __call($name, $arguments)
+    {
+        return call_user_func_array([$this->getHtmlTester(), $name], $arguments);
     }
 
     /**
