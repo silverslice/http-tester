@@ -120,6 +120,16 @@ class Response
     }
 
     /**
+     * Does the response have status code 403?
+     *
+     * @return bool
+     */
+    public function isForbidden()
+    {
+        return $this->info['http_code'] == 403;
+    }
+
+    /**
      * Does the response have status code?
      *
      * @param  int $status
@@ -172,7 +182,7 @@ class Response
      */
     public function has301RedirectTo($url)
     {
-        return $this->hasStatus(301) && $this->hasRedirectTo($url);
+        return $this->hasStatusCode(301) && $this->hasRedirectTo($url);
     }
 
     /**
@@ -209,7 +219,9 @@ class Response
      */
     protected function parse($response)
     {
-        list($headers, $body) = explode("\r\n\r\n", $response, 2);
+        $parts = explode("\r\n\r\n", $response, 2);
+        $headers = $parts[0];
+        $body = isset($parts[1]) ? $parts[1] : null;
         $headers = $this->parseHeaders($headers);
 
         return compact('headers', 'body');

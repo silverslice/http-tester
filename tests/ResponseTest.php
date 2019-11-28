@@ -14,6 +14,13 @@ class ResponseTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($response->isSuccess());
     }
 
+    public function testIsForbidden()
+    {
+        $response = $this->getResponse('forbidden');
+
+        $this->assertTrue($response->isForbidden());
+    }
+
     public function testHasStatus()
     {
         $response = $this->getResponse();
