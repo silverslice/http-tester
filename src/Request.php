@@ -200,6 +200,10 @@ class Request
     public function send()
     {
         if ($this->headers) {
+            if ($this->postFields) {
+                // removes Expect: 100-continue curl header
+                $this->headers[] = 'Expect:';
+            }
             $this->setOpt(CURLOPT_HTTPHEADER, $this->headers);
         }
 
