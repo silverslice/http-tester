@@ -93,6 +93,8 @@ class Request
         $file = new \CURLFile($path);
         $this->setOpt(CURLOPT_POST, true);
         $this->postFields[$fieldName] = $file;
+
+        return $this;
     }
 
     /**
