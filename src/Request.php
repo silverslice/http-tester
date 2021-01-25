@@ -204,7 +204,7 @@ class Request
         }
 
         if ($this->postFields) {
-            $this->setOpt(CURLOPT_POSTFIELDS, http_build_query($this->postFields));
+            $this->setOpt(CURLOPT_POSTFIELDS, $this->postFields);
             $this->postFields = [];
         }
 
