@@ -17,6 +17,8 @@ class Request
 
     protected $baseUrl = '';
 
+    protected $postFields = [];
+
     /** @var array curl_info result */
     protected $info;
 
@@ -67,7 +69,7 @@ class Request
     {
         $this->setOpt(CURLOPT_URL, $this->buildUrl($url));
         $this->setOpt(CURLOPT_POST, true);
-        $this->setOpt(CURLOPT_POSTFIELDS, http_build_query($data));
+        $this->postFields = $data;
 
         return $this;
     }
@@ -84,6 +86,13 @@ class Request
         $this->setOpt(CURLOPT_NOBODY, true);
 
         return $this;
+    }
+
+    public function addFile($path, $fieldName)
+    {
+        $file = new \CURLFile($path);
+        $this->setOpt(CURLOPT_POST, true);
+        $this->postFields[$fieldName] = $file;
     }
 
     /**
@@ -190,6 +199,11 @@ class Request
     {
         if ($this->headers) {
             $this->setOpt(CURLOPT_HTTPHEADER, $this->headers);
+        }
+
+        if ($this->postFields) {
+            $this->setOpt(CURLOPT_POSTFIELDS, http_build_query($this->postFields));
+            $this->postFields = [];
         }
 
         $this->setOpt(CURLINFO_HEADER_OUT, true);
