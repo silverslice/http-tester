@@ -19,6 +19,9 @@
     "autoload": {
         "psr-4": {
             "Silverslice\\HttpTester\\": "src/"
-        }
+        },
+        "exclude-from-classmap": [
+            "/tests/"
+        ]
     }
 }
