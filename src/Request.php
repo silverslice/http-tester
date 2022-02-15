@@ -19,6 +19,8 @@ class Request
 
     protected $postFields = [];
 
+    protected $body = [];
+
     /** @var array curl_info result */
     protected $info;
 
@@ -62,7 +64,7 @@ class Request
      * Sets POST request
      *
      * @param  string  $url
-     * @param  array   $data
+     * @param  array|string $data
      * @return Request
      */
     public function post($url, $data = [])

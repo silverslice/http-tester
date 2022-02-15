@@ -40,7 +40,6 @@ class EasyTest extends \PHPUnit_Framework_TestCase
             ->send();
         
         $header = $request->getSentHeader();
-        var_dump($header);
         $this->assertContains('X-Requested-With: XMLHttpRequest', $header, '', true);
     }
 }
