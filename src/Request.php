@@ -24,6 +24,9 @@ class Request
     /** @var array curl_info result */
     protected $info;
 
+    /** @var bool Sends body as json  */
+    protected $asJson = false;
+
     public function __construct()
     {
         $this->curl = curl_init();
@@ -72,6 +75,18 @@ class Request
         $this->setOpt(CURLOPT_URL, $this->buildUrl($url));
         $this->setOpt(CURLOPT_POST, true);
         $this->postFields = $data;
+
+        return $this;
+    }
+
+    /**
+     * Sends body as json in POST request
+     *
+     * @return Request
+     */
+    public function asJson()
+    {
+        $this->asJson = true;
 
         return $this;
     }
@@ -210,7 +225,13 @@ class Request
         }
 
         if ($this->postFields) {
-            $this->setOpt(CURLOPT_POSTFIELDS, $this->postFields);
+            if ($this->asJson) {
+                $this->setOpt(CURLOPT_POSTFIELDS, json_encode($this->postFields));
+                $this->headers[] = 'Content-Type: application/json';
+                $this->asJson = false;
+            } else {
+                $this->setOpt(CURLOPT_POSTFIELDS, $this->postFields);
+            }
             $this->postFields = [];
         }
 

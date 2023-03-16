@@ -2,10 +2,11 @@
 
 require __DIR__ . '/../vendor/autoload.php';
 
+use PHPUnit\Framework\TestCase;
 use Silverslice\HttpTester\Request;
 use Silverslice\HttpTester\Response;
 
-class ResponseTest extends \PHPUnit_Framework_TestCase
+class ResponseTest extends TestCase
 {
     public function testIsSuccess()
     {

@@ -39,5 +39,18 @@ class EasyTest extends \PHPUnit_Framework_TestCase
         // the response hasn't this cookie
         $this->assertFalse($response->hasCookie('laravel_session'));
     }
+    
+    public function testSendJson()
+    {
+        $request = new Request();
+
+        $response = $request
+            ->post('http://localhost:8000/json', ['name' => 'John'])
+            ->asJson()
+            ->send();
+
+        $json = $response->getBodyJson();
+        $this->assertEquals('John', $json['name']);
+    }
 }
 ```

@@ -2,16 +2,17 @@
 
 require __DIR__ . '/../vendor/autoload.php';
 
+use PHPUnit\Framework\TestCase;
 use Silverslice\HttpTester\Request;
 
-class EasyTest extends \PHPUnit_Framework_TestCase
+class EasyTest extends TestCase
 {
     public function testSimple()
     {
         $request = new Request();
 
         $response = $request
-            ->get('https://getcomposer.org/')
+            ->get('http://localhost:8000/')
             ->setReferrer('http://php.net/')
             ->setUserAgent('Curl agent')
             ->setCookie('hello', 'world')
@@ -35,11 +36,24 @@ class EasyTest extends \PHPUnit_Framework_TestCase
         $request = new Request();
 
         $request
-            ->get('https://getcomposer.org/')
+            ->get('http://localhost:8000/')
             ->setAjaxHeader()
             ->send();
         
         $header = $request->getSentHeader();
-        $this->assertContains('X-Requested-With: XMLHttpRequest', $header, '', true);
+        $this->assertStringContainsString('X-Requested-With: XMLHttpRequest', $header, '', true);
+    }
+
+    public function testSendJson()
+    {
+        $request = new Request();
+
+        $response = $request
+            ->post('http://localhost:8000/json', ['name' => 'John'])
+            ->asJson()
+            ->send();
+
+        $json = $response->getBodyJson();
+        $this->assertEquals('John', $json['name']);
     }
 }
